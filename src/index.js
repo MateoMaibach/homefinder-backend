@@ -3,20 +3,31 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { swaggerUi, swaggerSpec } from "./docs/swagger.js";
 
+import authRoutes from "./routes/auth.routes.js";
+import usuariosRoutes from "./routes/users.routes.js";
+
 dotenv.config();
 
 const app = express();
 
+// MIDDLEWARES 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Swagger
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+// RUTAS
+app.use("/api/auth", authRoutes);
+app.use("/api/usuarios", usuariosRoutes);
+
+// RUTA BASE
 app.get("/", (req, res) => {
   res.send("API HomeFinder funcionando");
 });
 
+// SERVER
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
