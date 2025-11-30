@@ -31,6 +31,7 @@ import {
   actualizarUsuario,
   eliminarUsuario
 } from "../controllers/users.controller.js";
+import { verifyAdminRole, verifyToken } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -44,7 +45,7 @@ const router = Router();
  *       200:
  *         description: Lista de usuarios
  */
-router.get("/", obtenerUsuarios);
+router.get("/",verifyToken, verifyAdminRole, obtenerUsuarios);
 
 /**
  * @swagger
@@ -62,7 +63,7 @@ router.get("/", obtenerUsuarios);
  *       200:
  *         description: Usuario encontrado
  */
-router.get("/:id", obtenerUsuarioPorId);
+router.get("/:id",verifyToken, verifyAdminRole, obtenerUsuarioPorId);
 
 /**
  * @swagger
@@ -104,7 +105,7 @@ router.post("/", crearUsuario);
  *       200:
  *         description: Usuario actualizado
  */
-router.put("/:id", actualizarUsuario);
+router.put("/:id",verifyToken, verifyAdminRole, actualizarUsuario);
 
 /**
  * @swagger
@@ -122,6 +123,6 @@ router.put("/:id", actualizarUsuario);
  *       200:
  *         description: Usuario eliminado
  */
-router.delete("/:id", eliminarUsuario);
+router.delete("/:id",verifyToken, verifyAdminRole, eliminarUsuario);
 
 export default router;
