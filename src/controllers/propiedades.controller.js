@@ -4,7 +4,6 @@ import db from "../config/db.js";
 export const crearPropiedad = async (req, res) => {
     const usuario_id = req.user.id; 
     
-    // Incluimos latitud y longitud en la desestructuración
     const { 
         titulo, descripcion, precio, tipo_operacion, tipo_propiedad,
         ambientes, dormitorios, baños, cocheras, superficie_cubierta,
@@ -36,8 +35,8 @@ export const crearPropiedad = async (req, res) => {
                 usuario_id, titulo, descripcion, precio, tipo_operacion, tipo_propiedad,
                 ambientes, dormitorios, baños, cocheras, superficie_cubierta,
                 superficie_total, antiguedad, calle, altura, ciudad, provincia, barrio,
-                latitud, longitud, // <-- Insertamos las coordenadas
-                0 // ACTIVO=0: Inactiva hasta que se suban imágenes
+                latitud, longitud, 
+                0 
             ]
         );
 
