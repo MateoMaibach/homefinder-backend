@@ -1,35 +1,39 @@
-import db from "../config/db.js";
+// src/controllers/auth.controller.js (Login Refactorizado con Sequelize)
+
+// Importamos el Modelo User
+import User from "../models/User.js"; 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv"; 
+
+dotenv.config();
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-      
-        const [rows] = await db.execute(
-            "SELECT * FROM users WHERE email = ?",
-            [email]
-        );
+        
+        // 1. Sequelize: Buscar usuario por email
+        const user = await User.findOne({ 
+            where: { email } 
+        });
 
-        if (rows.length === 0) {
+        if (!user) {
             return res.status(400).json({ message: "Credenciales inválidas" });
         }
 
-        const user = rows[0];
-
-       
+        // 2. Comprobar contraseña (usando el campo 'password_hash' del modelo)
         const isValidPassword = await bcrypt.compare(password, user.password_hash);
 
         if (!isValidPassword) {
             return res.status(400).json({ message: "Credenciales inválidas" });
         }
 
-       
+        // 3. Generar JWT (usando los campos del modelo)
         const token = jwt.sign(
             {
                 id: user.id,
-                nombre: user.name,
+                nombre: user.name, 
                 email: user.email,
                 rol: user.role
             },
@@ -49,7 +53,7 @@ export const login = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Error Sequelize (login):", error);
         return res.status(500).json({ message: "Error en el servidor" });
     }
 };

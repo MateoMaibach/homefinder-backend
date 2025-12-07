@@ -1,7 +1,7 @@
 // src/models/Imagen.js
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../database/database.js';
-import Propiedad from './Propiedad.js'; // Asegúrate de que la ruta sea correcta
+import { sequelize } from '../config/db.js'; 
+import Propiedad from './Propiedad.js';
 
 const Imagen = sequelize.define('Imagen', {
     id: {
