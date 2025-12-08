@@ -1,38 +1,39 @@
-// src/models/Propiedad.js
-import { DataTypes } from 'sequelize';
-import { sequelize } from '../config/db.js'; 
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/db.js";
 
-const Propiedad = sequelize.define('Propiedad', {
+const Propiedad = sequelize.define(
+  "Propiedad",
+  {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    usuario_id: { 
-        type: DataTypes.INTEGER,
-        allowNull: false,
+    usuario_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
-    titulo: { 
-        type: DataTypes.STRING(255),
-        allowNull: false,
+    titulo: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
     },
     descripcion: {
-        type: DataTypes.TEXT,
-        allowNull: false,
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
     precio: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
     },
     tipo_operacion: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
+      type: DataTypes.STRING(50),
+      allowNull: false,
     },
     tipo_propiedad: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
+      type: DataTypes.STRING(50),
+      allowNull: false,
     },
-    // --- Campos Numéricos ---
+
     ambientes: DataTypes.INTEGER,
     dormitorios: DataTypes.INTEGER,
     baños: DataTypes.INTEGER,
@@ -40,12 +41,11 @@ const Propiedad = sequelize.define('Propiedad', {
     superficie_cubierta: DataTypes.DECIMAL(10, 2),
     superficie_total: DataTypes.DECIMAL(10, 2),
     antiguedad: {
-        type: DataTypes.ENUM('a estrenar', 'en construcción', 'con antigüedad'),
-        allowNull: false, // Asumo que no puede ser nulo
-        defaultValue: 'a estrenar', // <-- AGREGAR ESTA LÍNEA
+      type: DataTypes.ENUM("a estrenar", "en construcción", "con antigüedad"),
+      allowNull: false,
+      defaultValue: "a estrenar",
     },
-    
-    // --- Campos de Ubicación ---
+
     calle: DataTypes.STRING(100),
     altura: DataTypes.STRING(10),
     ciudad: DataTypes.STRING(100),
@@ -54,16 +54,17 @@ const Propiedad = sequelize.define('Propiedad', {
     latitud: DataTypes.DECIMAL(10, 7),
     longitud: DataTypes.DECIMAL(10, 7),
 
-    // --- Campo de Control ---
     activo: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false, 
-    }
-}, {
-    tableName: 'propiedades', 
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  },
+  {
+    tableName: "propiedades",
     timestamps: true,
-    createdAt:'creado_en',
-    updatedAt:false,
-});
+    createdAt: "creado_en",
+    updatedAt: false,
+  }
+);
 
 export default Propiedad;
