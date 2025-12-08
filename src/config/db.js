@@ -1,10 +1,8 @@
-// src/config/db.js 
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// 1. Configuración de la conexión a MySQL con Sequelize
 export const sequelize = new Sequelize(
     process.env.DB_NAME,       
     process.env.DB_USER,       
@@ -12,15 +10,14 @@ export const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: 'mysql', 
-        logging: false, // Puedes cambiar a true temporalmente para ver las queries SQL
+        logging: false, 
         define: {
             timestamps: true, 
-            freezeTableName: true // Evita que el nombre de la tabla se pluralice
+            freezeTableName: true 
         }
     }
 );
 
-// 2. Función para verificar y autenticar la conexión
 export const connectDB = async () => {
     try {
         await sequelize.authenticate();
