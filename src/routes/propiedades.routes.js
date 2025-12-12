@@ -6,6 +6,8 @@ import {
   actualizarPropiedad,
   eliminarPropiedad,
   subirImagenes,
+  setCoverImage,
+  deleteImage,
 } from "../controllers/propiedades.controller.js";
 
 import { verifyToken } from "../middlewares/auth.middleware.js";
@@ -25,5 +27,13 @@ router.post(
   uploadImagesMiddleware,
   subirImagenes
 );
+
+router.put(
+  "/:propiedadId/imagenes/:imagenId/portada",
+  verifyToken,
+  setCoverImage
+);
+
+router.delete("/:propiedadId/imagenes/:imagenId", verifyToken, deleteImage);
 
 export default router;

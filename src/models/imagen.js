@@ -8,10 +8,16 @@ const Imagen = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+      allowNull: false,
     },
     propiedad_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "Propiedad",
+        key: "id",
+      },
+      onDelete: "CASCADE",
     },
     url: {
       type: DataTypes.STRING(255),
@@ -32,6 +38,10 @@ const Imagen = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
+    },
+    public_id: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
     },
   },
   {
