@@ -164,7 +164,7 @@ export const obtenerPropiedades = async (req, res) => {
         {
           model: Imagen,
           as: "imagenes",
-          attributes: ["url", "tipo_recurso", ["es_principal", "es_portada"]],
+          attributes: ["id", "url", "tipo_recurso", "es_portada"],
         },
       ],
     });
@@ -175,7 +175,6 @@ export const obtenerPropiedades = async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
-
 export const obtenerPropiedadPorId = async (req, res) => {
   const { id } = req.params;
   try {
@@ -184,7 +183,7 @@ export const obtenerPropiedadPorId = async (req, res) => {
         {
           model: Imagen,
           as: "imagenes",
-          attributes: ["url", "tipo_recurso", ["es_principal", "es_portada"]],
+          attributes: ["id", "url", "tipo_recurso", "es_portada"],
         },
       ],
     });
@@ -317,15 +316,15 @@ export const setCoverImage = async (req, res) => {
     }
 
     await Imagen.update(
-      { es_principal: false },
+      { es_portada: false },
       {
-        where: { propiedad_id: propiedadId, es_principal: true },
+        where: { propiedad_id: propiedadId, es_portada: true },
         transaction: t,
       }
     );
 
     await Imagen.update(
-      { es_principal: true },
+      { es_portada: true },
       { where: { id: imagenId }, transaction: t }
     );
 
