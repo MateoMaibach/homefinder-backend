@@ -8,7 +8,13 @@ import usuariosRoutes from "./routes/users.routes.js";
 import propiedadesRoutes from "./routes/propiedades.routes.js";
 import Propiedad from "./models/Propiedad.js";
 import Imagen from "./models/imagen.js";
+import Favorito from "./models/Favorito.js";
+import User from "./models/User.js";
+import favoritoRoutes  from "./routes/favorito.routes.js";
 
+
+User.belongsToMany(Propiedad, { through: Favorito, foreignKey: "usuario_id", as: "favoritas" });
+Propiedad.belongsToMany(User, { through: Favorito, foreignKey: 'propiedad_id', as: 'favoritaPor' });
 Propiedad.hasMany(Imagen, {
   foreignKey: "propiedad_id",
   as: "imagenes",
@@ -30,12 +36,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // RUTAS
-app.use("/api/auth", authRoutes);
-app.use("/api/usuarios", usuariosRoutes);
-app.use("/api/propiedades", propiedadesRoutes);
 app.get("/", (req, res) => {
   res.send("API HomeFinder funcionando");
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/usuarios", usuariosRoutes);
+app.use("/api/propiedades", propiedadesRoutes);
+app.use("/api", favoritoRoutes);
+
 
 // SERVER
 const PORT = process.env.PORT || 3000;
