@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login } from "../controllers/auth.controller.js";
+import { login, forgotPassword, resetPassword } from "../controllers/auth.controller.js";
 
 const router = Router();
 
@@ -29,5 +29,7 @@ const router = Router();
  *         description: Credenciales inválidas
  */
 router.post("/login", login);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 export default router;
