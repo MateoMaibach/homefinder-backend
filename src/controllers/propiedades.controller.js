@@ -15,6 +15,7 @@ export const crearPropiedad = async (req, res) => {
     titulo,
     descripcion,
     precio,
+    moneda, // ⬅️ Nuevo campo
     tipo_operacion,
     tipo_propiedad,
     ambientes,
@@ -53,6 +54,7 @@ export const crearPropiedad = async (req, res) => {
       titulo,
       descripcion,
       precio,
+      moneda, // ⬅️ Nuevo campo
       tipo_operacion,
       tipo_propiedad,
       ambientes,
@@ -157,8 +159,36 @@ export const subirImagenes = async (req, res) => {
 
 export const obtenerPropiedades = async (req, res) => {
   try {
+    const {
+      tipo_operacion,
+      tipo_propiedad,
+      minPrecio,
+      maxPrecio,
+      moneda,
+      ambientes,
+      ciudad,
+      barrio,
+    } = req.query;
+
+    const where = { activo: true };
+
+    if (tipo_operacion) where.tipo_operacion = tipo_operacion;
+    if (tipo_propiedad) where.tipo_propiedad = tipo_propiedad;
+    if (moneda) where.moneda = moneda;
+
+    if (ambientes) where.ambientes = { [Op.gte]: ambientes };
+
+    if (minPrecio || maxPrecio) {
+      where.precio = {};
+      if (minPrecio) where.precio[Op.gte] = parseFloat(minPrecio);
+      if (maxPrecio) where.precio[Op.lte] = parseFloat(maxPrecio);
+    }
+
+    if (ciudad) where.ciudad = { [Op.like]: `%${ciudad}%` };
+    if (barrio) where.barrio = { [Op.like]: `%${barrio}%` };
+
     const propiedades = await Propiedad.findAll({
-      where: { activo: true },
+      where,
       order: [["creado_en", "DESC"]],
       include: [
         {
