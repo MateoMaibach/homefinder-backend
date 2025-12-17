@@ -26,6 +26,14 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       defaultValue: "user",
     },
+    tokenReset:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    expiraReset:{
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     tableName: "users",
