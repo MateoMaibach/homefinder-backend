@@ -33,6 +33,34 @@ const Propiedad = sequelize.define(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
+    tipo_operacion: {
+      type: DataTypes.ENUM("venta", "alquiler"),
+      allowNull: false,
+    },
+
+    tipo_propiedad: {
+      type: DataTypes.ENUM(
+        "Departamento",
+        "Casa",
+        "Lote",
+        "Terreno",
+        "Local",
+        "Oficina",
+        "Cochera"
+      ),
+      allowNull: false,
+    },
+
+    precio: {
+      type: DataTypes.DECIMAL(15, 2),
+      allowNull: false,
+    },
+
+    moneda: {
+      type: DataTypes.ENUM("ARS", "USD"),
+      defaultValue: "USD",
+      allowNull: false,
+    },
 
     ambientes: DataTypes.INTEGER,
     dormitorios: DataTypes.INTEGER,
